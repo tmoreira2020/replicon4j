@@ -39,7 +39,7 @@ public static void main(String[] args) {
 
 ### Which methods are implemented?
 
-Yep, it is a small list. Can you help me? Look here: [Contributing](#Contributing).
+Yep, it is a small list. Can you help me? Look here: [Contributing](#contributing).
 * getProject(String projectUri)
 * getProjectAllocations(Date startDate,	Date endDate, String resourceUri)
 * getResource(String resourceUri)
