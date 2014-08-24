@@ -29,6 +29,7 @@
 	<artifactId>replicon4j</artifactId>
 	<name>Replicon4j</name>
 	<version>0.1-SNAPSHOT</version>
+	<description>Replicon for Java - A Java wrapper to the Replicon API</description>
 	<build>
 		<plugins>
 			<plugin>
