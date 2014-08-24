@@ -30,6 +30,11 @@
 	<name>Replicon4j</name>
 	<version>0.1-SNAPSHOT</version>
 	<description>Replicon for Java - A Java wrapper to the Replicon API</description>
+	<url>https://github.com/tmoreira2020/replicon4j</url>
+	<issueManagement>
+		<system>Github</system>
+		<url>https://github.com/tmoreira2020/replicon4j/issues</url>
+	</issueManagement>
 	<build>
 		<plugins>
 			<plugin>
@@ -74,11 +79,6 @@
 			<version>4.0.6.RELEASE</version>
 		</dependency>
 	</dependencies>
-	<url>https://github.com/tmoreira2020/replicon4j</url>
-	<issueManagement>
-		<system>Github</system>
-		<url>https://github.com/tmoreira2020/replicon4j/issues</url>
-	</issueManagement>
 	<scm>
 		<url>https://github.com/tmoreira2020/replicon4j</url>
 		<connection>scm:git:git@github.com:tmoreira2020/replicon4j.git</connection>
