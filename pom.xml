@@ -81,7 +81,7 @@
 	</issueManagement>
 	<scm>
 		<url>https://github.com/tmoreira2020/replicon4j</url>
-		<connection>https://github.com/tmoreira2020/replicon4j</connection>
-		<developerConnection>https://github.com/tmoreira2020/replicon4j</developerConnection>
+		<connection>scm:git:git@github.com:tmoreira2020/replicon4j.git</connection>
+		<developerConnection>scm:git:git@github.com:tmoreira2020/replicon4j.git</developerConnection>
 	</scm>
 </project>
