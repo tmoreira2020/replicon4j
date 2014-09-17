@@ -76,6 +76,8 @@ public class Replicon {
 						+ new String(encodedAuthorisation));
 			}
 		};
+
+		this.restTemplate = new RestTemplate(clientHttpRequestFactory);
 	}
 
 	public Project getProject(String projectUri) throws IOException {
@@ -87,8 +89,6 @@ public class Replicon {
 		HttpHeaders headers = new HttpHeaders();
 
 		headers.setContentType(MediaType.APPLICATION_JSON);
-
-		RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
 
 		ResponseEntity<Response<Project>> response = null;
 		HttpEntity<String> httpEntity = new HttpEntity<String>(
@@ -120,8 +120,6 @@ public class Replicon {
 
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
-		RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
-
 		ResponseEntity<Response<GetResourceAllocationSummaryResponse>> response = null;
 		HttpEntity<String> httpEntity = new HttpEntity<String>(
 				objectMapper.writeValueAsString(request), headers);
@@ -147,8 +145,6 @@ public class Replicon {
 
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
-		RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
-
 		ResponseEntity<Response<Resource>> response = null;
 		HttpEntity<String> httpEntity = new HttpEntity<String>(
 				objectMapper.writeValueAsString(request), headers);
@@ -170,8 +166,6 @@ public class Replicon {
 		HttpHeaders headers = new HttpHeaders();
 
 		headers.setContentType(MediaType.APPLICATION_JSON);
-
-		RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
 
 		ResponseEntity<Response<Task>> response = null;
 		HttpEntity<String> httpEntity = new HttpEntity<String>(
@@ -195,8 +189,6 @@ public class Replicon {
 		HttpHeaders headers = new HttpHeaders();
 
 		headers.setContentType(MediaType.APPLICATION_JSON);
-
-		RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
 
 		ResponseEntity<Response<GetResourceTaskAllocationDetailsResponse>> response = null;
 		HttpEntity<String> httpEntity = new HttpEntity<String>(
@@ -231,8 +223,6 @@ public class Replicon {
 
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
-		RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
-
 		ResponseEntity<Response<TimeOffAllocation[]>> response = null;
 		HttpEntity<String> httpEntity = new HttpEntity<String>(
 				objectMapper.writeValueAsString(request), headers);
@@ -253,8 +243,6 @@ public class Replicon {
 		HttpHeaders headers = new HttpHeaders();
 
 		headers.setContentType(MediaType.APPLICATION_JSON);
-
-		RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
 
 		ResponseEntity<Response<User[]>> response = null;
 		HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
