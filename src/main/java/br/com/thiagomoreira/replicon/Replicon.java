@@ -37,6 +37,7 @@ import br.com.thiagomoreira.replicon.model.Resource;
 import br.com.thiagomoreira.replicon.model.Response;
 import br.com.thiagomoreira.replicon.model.Task;
 import br.com.thiagomoreira.replicon.model.TaskAllocation;
+import br.com.thiagomoreira.replicon.model.TimeOffAllocation;
 import br.com.thiagomoreira.replicon.model.User;
 import br.com.thiagomoreira.replicon.model.operations.GetProjectDetailsRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetResourceAllocationSummaryRequest;
@@ -45,6 +46,7 @@ import br.com.thiagomoreira.replicon.model.operations.GetResourceDetailsRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetResourceTaskAllocationDetailsRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetResourceTaskAllocationDetailsResponse;
 import br.com.thiagomoreira.replicon.model.operations.GetTaskDetailsRequest;
+import br.com.thiagomoreira.replicon.model.operations.GetTimeOffDetailsForUserAndDateRangeRequest;
 import br.com.thiagomoreira.replicon.util.DateUtil;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -210,6 +212,41 @@ public class Replicon {
 						});
 
 		return response.getBody().getD().getEntries();
+	}
+
+	public TimeOffAllocation[] getTimeOff(String userUri, Date startDate,
+			Date endDate) throws IOException {
+
+		GetTimeOffDetailsForUserAndDateRangeRequest request = new GetTimeOffDetailsForUserAndDateRangeRequest();
+
+		DateRange dateRange = new DateRange();
+
+		dateRange.setStartDate(DateUtil.translateDate(startDate));
+		dateRange.setEndDate(DateUtil.translateDate(endDate));
+
+		request.setUserUri(userUri);
+		request.setDateRange(dateRange);
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
+
+		ResponseEntity<Response<TimeOffAllocation[]>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate
+				.exchange(
+						getBaseServiceUrl()
+								+ "/TimeOffService1.svc/GetTimeOffDetailsForUserAndDateRange",
+						HttpMethod.POST,
+						httpEntity,
+						new ParameterizedTypeReference<Response<TimeOffAllocation[]>>() {
+						});
+
+		return response.getBody().getD();
 	}
 
 	public User[] getUsers() {

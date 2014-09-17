@@ -13,18 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package br.com.thiagomoreira.replicon.model;
+package br.com.thiagomoreira.replicon.model.operations;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import br.com.thiagomoreira.replicon.model.DateRange;
 import lombok.Data;
 
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Duration {
+public class GetTimeOffDetailsForUserAndDateRangeRequest {
 
-	protected int hours;
-	protected int minutes;
-	protected int seconds;
+	protected String userUri;
+	protected DateRange dateRange;
 
 }

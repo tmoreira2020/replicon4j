@@ -21,10 +21,12 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Duration {
+public class TimeOffAllocation {
 
-	protected int hours;
-	protected int minutes;
-	protected int seconds;
+	protected DateDetails startDateDetails;
+	protected DateDetails endDateDetails;
+	protected User owner;
+	protected Duration totalDuration;
+	protected String uri;
 
 }

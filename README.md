@@ -45,6 +45,7 @@ Yep, it is a small list. Can you help me? Look here: [Contributing](#contributin
 * getResource(String resourceUri)
 * getTask(String taskUri)
 * getTaskAllocations(String projectUri, String resourceUri)
+* getTimeOff(String userUri, Date startDate, Date endDate)
 * getUsers()
 
 ### Maven/Gradle

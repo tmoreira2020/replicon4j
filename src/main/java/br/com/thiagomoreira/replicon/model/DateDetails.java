@@ -21,10 +21,8 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Duration {
+public class DateDetails {
 
-	protected int hours;
-	protected int minutes;
-	protected int seconds;
-
+	protected Date date;
+	protected String relativeDurationUri;
 }
