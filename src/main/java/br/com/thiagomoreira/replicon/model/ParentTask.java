@@ -17,15 +17,9 @@ package br.com.thiagomoreira.replicon.model;
 
 import lombok.Data;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Task {
+public class ParentTask {
 
-	protected String displayText;
-	protected String uri;
-	protected String name;
-	protected ParentTask parent;
-	protected DateRange timeEntryDateRange;
+	protected ParentTask parentTask;
+	protected Task task;
 }

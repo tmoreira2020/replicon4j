@@ -13,19 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package br.com.thiagomoreira.replicon.model;
+package br.com.thiagomoreira.replicon.model.operations;
 
 import lombok.Data;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Task {
+public class GetTaskDetailsRequest {
 
-	protected String displayText;
-	protected String uri;
-	protected String name;
-	protected ParentTask parent;
-	protected DateRange timeEntryDateRange;
+	protected String taskUri;
+
 }

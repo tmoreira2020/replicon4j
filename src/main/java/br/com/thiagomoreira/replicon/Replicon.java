@@ -35,6 +35,7 @@ import br.com.thiagomoreira.replicon.model.Project;
 import br.com.thiagomoreira.replicon.model.ProjectAllocation;
 import br.com.thiagomoreira.replicon.model.Resource;
 import br.com.thiagomoreira.replicon.model.Response;
+import br.com.thiagomoreira.replicon.model.Task;
 import br.com.thiagomoreira.replicon.model.TaskAllocation;
 import br.com.thiagomoreira.replicon.model.User;
 import br.com.thiagomoreira.replicon.model.operations.GetProjectDetailsRequest;
@@ -43,6 +44,7 @@ import br.com.thiagomoreira.replicon.model.operations.GetResourceAllocationSumma
 import br.com.thiagomoreira.replicon.model.operations.GetResourceDetailsRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetResourceTaskAllocationDetailsRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetResourceTaskAllocationDetailsResponse;
+import br.com.thiagomoreira.replicon.model.operations.GetTaskDetailsRequest;
 import br.com.thiagomoreira.replicon.util.DateUtil;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -153,6 +155,29 @@ public class Replicon {
 				+ "/ResourceService1.svc/GetResourceDetails", HttpMethod.POST,
 				httpEntity,
 				new ParameterizedTypeReference<Response<Resource>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
+	public Task getTask(String taskUri) throws IOException {
+		GetTaskDetailsRequest request = new GetTaskDetailsRequest();
+
+		request.setTaskUri(taskUri);
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
+
+		ResponseEntity<Response<Task>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/TaskService1.svc/GetTaskDetails", HttpMethod.POST,
+				httpEntity, new ParameterizedTypeReference<Response<Task>>() {
 				});
 
 		return response.getBody().getD();
