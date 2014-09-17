@@ -27,7 +27,7 @@
 	<groupId>br.com.thiagomoreira.replicon</groupId>
 	<artifactId>replicon4j</artifactId>
 	<name>Replicon4j</name>
-	<version>0.2</version>
+	<version>0.3-SNAPSHOT</version>
 	<description>Replicon for Java - A Java wrapper to the Replicon API</description>
 	<url>https://github.com/tmoreira2020/replicon4j</url>
 	<issueManagement>
@@ -99,6 +99,6 @@
 		<url>https://github.com/tmoreira2020/replicon4j</url>
 		<connection>scm:git:git@github.com:tmoreira2020/replicon4j.git</connection>
 		<developerConnection>scm:git:git@github.com:tmoreira2020/replicon4j.git</developerConnection>
-	  <tag>replicon4j-0.2</tag>
+	  <tag>HEAD</tag>
   </scm>
 </project>
