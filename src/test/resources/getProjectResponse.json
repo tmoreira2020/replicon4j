@@ -1,0 +1,78 @@
+{
+  "d": {
+    "billingType": {
+      "displayText": "Time & Materials",
+      "uri": "urn:replicon:billing-type:time-and-material"
+    },
+    "budget": {
+      "capital": null,
+      "operational": null,
+      "total": null
+    },
+    "client": {
+      "displayText": "Client",
+      "name": "Client",
+      "slug": "client",
+      "uri": "urn:replicon-tenant:company:client:001"
+    },
+    "clientRepresentative": null,
+    "code": "",
+    "costType": null,
+    "customFields": [],
+    "description": null,
+    "displayText": "Project Name",
+    "estimatedCost": null,
+    "estimatedExpenses": null,
+    "estimatedHours": {
+      "hours": 300,
+      "minutes": 0
+    },
+    "estimationMode": {
+      "displayText": "Resource Based",
+      "uri": "urn:replicon:project-estimation-mode:resource-based"
+    },
+    "isProjectLeaderApprovalRequired": true,
+    "isTimeEntryAllowed": true,
+    "name": "Project Name",
+    "percentCompleted": 61,
+    "program": {
+      "displayText": "Program",
+      "name": "Program",
+      "slug": "program",
+      "uri": "urn:replicon-tenant:company:program:001"
+    },
+    "projectLeader": {
+      "displayText": "Lastname, Firstname",
+      "uri": "urn:replicon-tenant:company:user:001",
+      "user": {
+        "displayText": "Lastname, Firstname",
+        "loginName": "firstname.lastname",
+        "slug": "firstname-lastname",
+        "uri": "urn:replicon-tenant:company:user:001"
+      }
+    },
+    "slug": "project-name",
+    "status": {
+      "displayText": "In Progress",
+      "name": "In Progress",
+      "uri": "urn:replicon-tenant:company:project-status-label:001"
+    },
+    "timeAndExpenseEntryType": {
+      "displayText": "Billable & Non-Billable",
+      "uri": "urn:replicon:time-and-expense-entry-type:billable-and-non-billable"
+    },
+    "timeEntryDateRange": {
+      "endDate": {
+        "day": 31,
+        "month": 10,
+        "year": 2014
+      },
+      "startDate": {
+        "day": 7,
+        "month": 7,
+        "year": 2014
+      }
+    },
+    "uri": "urn:replicon-tenant:company:project:001"
+  }
+}
