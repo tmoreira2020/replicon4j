@@ -15,20 +15,11 @@
  */
 package br.com.thiagomoreira.replicon.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.Data;
 
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class TimeOffAllocation {
+public class Status {
 
-	protected Status approvalStatus;
-	protected DateDetails startDateDetails;
-	protected DateDetails endDateDetails;
-	protected User owner;
-	protected Status timeOffStatus;
-	protected Duration totalDuration;
+	protected String displayText;
 	protected String uri;
-
 }
