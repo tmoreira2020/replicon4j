@@ -20,6 +20,14 @@ import lombok.Data;
 @Data
 public class Status {
 
+	public static final String TENTATIVE = "Tentative";
+	public static final String INPROGRESS = "In Progress";
+	public static final String COMPLETED = "Completed";
+	public static final String DEFERRED = "Deferred";
+	public static final String CANCELLED = "Cancelled";
+	public static final String ARCHIVED = "Archived";
+
 	protected String displayText;
+	protected String name;
 	protected String uri;
 }

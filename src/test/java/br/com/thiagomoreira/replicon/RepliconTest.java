@@ -29,6 +29,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 
 import br.com.thiagomoreira.replicon.model.Project;
+import br.com.thiagomoreira.replicon.model.Status;
 
 public class RepliconTest {
 
@@ -52,5 +53,10 @@ public class RepliconTest {
 		mockServer.verify();
 
 		Assert.assertEquals(projectUri, project.getUri());
+
+		// Status
+		Status status = project.getStatus();
+		Assert.assertNotNull(status);
+		Assert.assertEquals(Status.INPROGRESS, status.getName());
 	}
 }

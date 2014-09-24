@@ -27,5 +27,6 @@ public class Project {
 	protected String name;
 	protected String uri;
 	protected Client client;
+	protected Status status;
 
 }
