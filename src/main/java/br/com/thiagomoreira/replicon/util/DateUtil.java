@@ -42,6 +42,7 @@ public class DateUtil {
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
+		calendar.setTimeZone(TimeZone.getTimeZone("GMT-0"));
 
 		return calendar.getTime();
 	}
@@ -51,10 +52,11 @@ public class DateUtil {
 
 		Calendar calendar = Calendar.getInstance();
 
-		calendar.set(Calendar.HOUR, 0);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
+		calendar.setTimeZone(TimeZone.getTimeZone("GMT-0"));
 		calendar.set(Calendar.MILLISECOND, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.HOUR, 0);
 
 		calendar.setTime(date);
 
