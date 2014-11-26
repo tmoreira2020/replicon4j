@@ -60,14 +60,14 @@ Maven:
 <dependency>
     <groupId>br.com.thiagomoreira.replicon</groupId>
     <artifactId>replicon4j</artifactId>
-    <version>0.1</version>
+    <version>0.3-SNAPSHOT</version>
 </dependency>
 ```
 Gradle:
 
 ```groovy
 dependencies {
-    compile(group: "br.com.thiagomoreira.replicon", name: "replicon4j", version: "0.1");
+    compile(group: "br.com.thiagomoreira.replicon", name: "replicon4j", version: "0.3-SNAPSHOT");
 }
 ```
 ### Support
