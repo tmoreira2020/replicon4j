@@ -46,6 +46,7 @@ Yep, it is a small list. Can you help me? Look here: [Contributing](#contributin
 * getTask(String taskUri)
 * getTaskAllocations(String projectUri, String resourceUri)
 * getTimeOff(String userUri, Date startDate, Date endDate)
+* getUserByLoginName(String loginName)
 * getUsers()
 * getUsersBySupervisor(String userUri)
 

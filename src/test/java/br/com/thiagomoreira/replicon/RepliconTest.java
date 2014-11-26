@@ -62,6 +62,31 @@ public class RepliconTest {
 	}
 
 	@Test
+	public void getUser() throws Exception {
+		String loginName = "thiago.ferreira";
+		Replicon replicon = new Replicon("company", "username", "password");
+
+		MockRestServiceServer mockServer = MockRestServiceServer
+				.createServer(replicon.restTemplate);
+
+		String response = FileUtils.readFileToString(new File(
+				"src/test/resources/getUser2Response.json"), "UTF-8");
+		mockServer
+				.expect(requestTo(replicon.getBaseServiceUrl()
+						+ "/UserService1.svc/GetUser2"))
+				.andExpect(method(HttpMethod.POST))
+				.andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+		User user = replicon.getUserByLoginName(loginName);
+
+		mockServer.verify();
+
+		Assert.assertEquals("thiago.ferreira", user.getLoginName());
+		Assert.assertEquals("urn:replicon-tenant:company:user:001",
+				user.getUri());
+
+	}
+
+	@Test
 	public void getUsersBySupervisor() throws Exception {
 		String userUri = "urn:replicon-tenant:company:user:120";
 		Replicon replicon = new Replicon("company", "username", "password");
