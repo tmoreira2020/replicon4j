@@ -39,6 +39,7 @@ import br.com.thiagomoreira.replicon.model.Task;
 import br.com.thiagomoreira.replicon.model.TaskAllocation;
 import br.com.thiagomoreira.replicon.model.TimeOffAllocation;
 import br.com.thiagomoreira.replicon.model.User;
+import br.com.thiagomoreira.replicon.model.operations.GetDirectReportsForUserRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetProjectDetailsRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetResourceAllocationSummaryRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetResourceAllocationSummaryResponse;
@@ -250,6 +251,27 @@ public class Replicon {
 		response = restTemplate.exchange(getBaseServiceUrl()
 				+ "/UserService1.svc/GetAllUsers", HttpMethod.POST, httpEntity,
 				new ParameterizedTypeReference<Response<User[]>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
+	public User[] getUsersBySupervisor(String userUri) throws IOException {
+		GetDirectReportsForUserRequest request = new GetDirectReportsForUserRequest();
+
+		request.setUserUri(userUri);
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<User[]>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/UserService1.svc/GetDirectReportsForUser", HttpMethod.POST,
+				httpEntity, new ParameterizedTypeReference<Response<User[]>>() {
 				});
 
 		return response.getBody().getD();

@@ -1,0 +1,28 @@
+{
+  "d": [
+    {
+      "displayText": "Moreira, Eduardo",
+      "loginName": "eduardo.moreira",
+      "slug": "eduardomoreira",
+      "uri": "urn:replicon-tenant:company:user:35"
+    },
+    {
+      "displayText": "Sivla, Fernando",
+      "loginName": "fernando.sivla",
+      "slug": "fernandosivla",
+      "uri": "urn:replicon-tenant:company:user:481"
+    },
+    {
+      "displayText": "Pereira, Paulo",
+      "loginName": "paulo.pereira",
+      "slug": "paulopereira",
+      "uri": "urn:replicon-tenant:company:user:483"
+    },
+    {
+      "displayText": "Peixoto, Marcio",
+      "loginName": "marcio.peixoto",
+      "slug": "marciopexioto",
+      "uri": "urn:replicon-tenant:company:user:686"
+    }
+  ]
+}

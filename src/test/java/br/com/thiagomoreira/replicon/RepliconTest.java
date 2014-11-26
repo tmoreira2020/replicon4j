@@ -30,6 +30,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 
 import br.com.thiagomoreira.replicon.model.Project;
 import br.com.thiagomoreira.replicon.model.Status;
+import br.com.thiagomoreira.replicon.model.User;
 
 public class RepliconTest {
 
@@ -58,5 +59,33 @@ public class RepliconTest {
 		Status status = project.getStatus();
 		Assert.assertNotNull(status);
 		Assert.assertEquals(Status.INPROGRESS, status.getName());
+	}
+
+	@Test
+	public void getUsersBySupervisor() throws Exception {
+		String userUri = "urn:replicon-tenant:company:user:120";
+		Replicon replicon = new Replicon("company", "username", "password");
+
+		MockRestServiceServer mockServer = MockRestServiceServer
+				.createServer(replicon.restTemplate);
+
+		String response = FileUtils.readFileToString(new File(
+				"src/test/resources/getUsersBySupervisorResponse.json"),
+				"UTF-8");
+		mockServer
+				.expect(requestTo(replicon.getBaseServiceUrl()
+						+ "/UserService1.svc/GetDirectReportsForUser"))
+				.andExpect(method(HttpMethod.POST))
+				.andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+		User[] users = replicon.getUsersBySupervisor(userUri);
+
+		mockServer.verify();
+
+		Assert.assertEquals(4, users.length);
+		Assert.assertEquals("eduardo.moreira", users[0].getLoginName());
+		Assert.assertEquals("fernando.sivla", users[1].getLoginName());
+		Assert.assertEquals("paulo.pereira", users[2].getLoginName());
+		Assert.assertEquals("marcio.peixoto", users[3].getLoginName());
+
 	}
 }
