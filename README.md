@@ -2,6 +2,7 @@ Replicon4j
 ==========
 [![Build Status](https://travis-ci.org/tmoreira2020/replicon4j.svg?branch=master)](https://travis-ci.org/tmoreira2020/replicon4j)
 [![Coverage Status](https://coveralls.io/repos/tmoreira2020/replicon4j/badge.png?branch=develop)](https://coveralls.io/r/tmoreira2020/replicon4j?branch=develop)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/br.com.thiagomoreira.replicon/replicon4j/badge.svg)](https://maven-badges.herokuapp.com/maven-central/br.com.thiagomoreira.replicon/replicon4j)
 
 Replicon4j is a Java/REST client to access the Replicon API available at [Replicon's Developer Getting Started](http://www.replicon.com/getting-started). It was developed leveraging the `org.springframework.web.client.RestTemplate` class of [Spring Framework](http://projects.spring.io/spring-framework/).
 
