@@ -17,6 +17,8 @@ package br.com.thiagomoreira.replicon.model.operations;
 
 import br.com.thiagomoreira.replicon.model.Department;
 import br.com.thiagomoreira.replicon.model.EmployeeType;
+import br.com.thiagomoreira.replicon.model.EmploymentDateRange;
+import br.com.thiagomoreira.replicon.model.SupervisorAssignmentSchedule;
 import br.com.thiagomoreira.replicon.model.User;
 
 import lombok.Data;
@@ -36,9 +38,9 @@ public class PutUserRequest {
 	protected String emailAddress;
 	protected String employeeId;
 	protected Department department;
-	protected String supervisorAssignmentSchedule;
+	protected SupervisorAssignmentSchedule supervisorAssignmentSchedule;
 	protected String workWeekStartDayUri;
-	protected String employmentDateRange;
+	protected EmploymentDateRange employmentDateRange;
 	protected EmployeeType employeeType;
 	protected String[] customFieldValues;
 }

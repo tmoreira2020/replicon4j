@@ -446,12 +446,17 @@ public class Replicon {
 
 	public Resource putUser(UserDetails userDetails) throws IOException {
 		PutUserRequest request = new PutUserRequest();
-		request.setTarget(userDetails.getUser());
-		request.setLoginName(userDetails.getLoginName());
+		request.setDepartment(userDetails.getDepartment());
+		request.setEmailAddress(userDetails.getEmailAddress());
+		request.setEmployeeId(userDetails.getEmployeeId());
+		request.setEmployeeType(userDetails.getEmployeeType());
+		request.setEmploymentDateRange(userDetails.getEmploymentDateRange());
 		request.setFirstname(userDetails.getFirstName());
 		request.setLastname(userDetails.getLastName());
-		request.setDepartment(userDetails.getDepartment());
-		request.setEmployeeType(userDetails.getEmployeeType());
+		request.setLoginName(userDetails.getLoginName());
+		request.setSupervisorAssignmentSchedule(userDetails
+				.getSupervisorAssignmentSchedule());
+		request.setTarget(userDetails.getUser());
 
 		HttpHeaders headers = new HttpHeaders();
 

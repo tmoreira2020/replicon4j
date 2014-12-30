@@ -21,16 +21,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserDetails {
+public class SupervisorAssignmentSchedule {
 
-	protected Department department;
-	protected String emailAddress;
-	protected String employeeId;
-	protected EmployeeType employeeType;
-	protected EmploymentDateRange employmentDateRange;
-	protected String firstName;
-	protected String lastName;
-	protected String loginName;
-	protected SupervisorAssignmentSchedule supervisorAssignmentSchedule;
-	protected User user;
+	public SupervisorAssignmentSchedule() {
+		supervisorScheduleEntries = new String[0];
+	}
+
+	protected User initialSupervisor;
+	protected String[] supervisorScheduleEntries;
 }
