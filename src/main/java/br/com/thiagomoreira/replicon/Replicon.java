@@ -48,10 +48,10 @@ import br.com.thiagomoreira.replicon.model.operations.GetResourceTaskAllocationD
 import br.com.thiagomoreira.replicon.model.operations.GetResourceTaskAllocationDetailsResponse;
 import br.com.thiagomoreira.replicon.model.operations.GetTaskDetailsRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetTimeOffDetailsForUserAndDateRangeRequest;
-import br.com.thiagomoreira.replicon.model.operations.GetUser2Request;
 import br.com.thiagomoreira.replicon.util.DateUtil;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class Replicon {
 
@@ -242,13 +242,15 @@ public class Replicon {
 	}
 
 	public User getUserByLoginName(String loginName) throws IOException {
-		GetUser2Request request = new GetUser2Request();
+		User request = new User();
 
 		request.setLoginName(loginName);
 
 		HttpHeaders headers = new HttpHeaders();
 
 		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
 
 		ResponseEntity<Response<User>> response = null;
 		HttpEntity<String> httpEntity = new HttpEntity<String>(
