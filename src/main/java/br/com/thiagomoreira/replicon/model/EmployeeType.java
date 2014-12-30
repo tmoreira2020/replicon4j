@@ -18,11 +18,9 @@ package br.com.thiagomoreira.replicon.model;
 import lombok.Data;
 
 @Data
-public class Department {
+public class EmployeeType {
 
 	protected String displayText;
 	protected String name;
-	protected String parent;
-	protected String parameterCorrelationId;
 	protected String uri;
 }

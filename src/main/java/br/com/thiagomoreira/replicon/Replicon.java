@@ -31,6 +31,8 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import br.com.thiagomoreira.replicon.model.DateRange;
+import br.com.thiagomoreira.replicon.model.Department;
+import br.com.thiagomoreira.replicon.model.EmployeeType;
 import br.com.thiagomoreira.replicon.model.Project;
 import br.com.thiagomoreira.replicon.model.ProjectAllocation;
 import br.com.thiagomoreira.replicon.model.Resource;
@@ -39,7 +41,9 @@ import br.com.thiagomoreira.replicon.model.Task;
 import br.com.thiagomoreira.replicon.model.TaskAllocation;
 import br.com.thiagomoreira.replicon.model.TimeOffAllocation;
 import br.com.thiagomoreira.replicon.model.User;
+import br.com.thiagomoreira.replicon.model.UserDetails;
 import br.com.thiagomoreira.replicon.model.operations.GetDirectReportsForUserRequest;
+import br.com.thiagomoreira.replicon.model.operations.GetEmployeeTypeForUserRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetProjectDetailsRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetResourceAllocationSummaryRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetResourceAllocationSummaryResponse;
@@ -49,6 +53,8 @@ import br.com.thiagomoreira.replicon.model.operations.GetResourceTaskAllocationD
 import br.com.thiagomoreira.replicon.model.operations.GetTaskDetailsRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetTimeOffDetailsForUserAndDateRangeRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetUser2Request;
+import br.com.thiagomoreira.replicon.model.operations.GetUserDetailsRequest;
+import br.com.thiagomoreira.replicon.model.operations.PutUserRequest;
 import br.com.thiagomoreira.replicon.util.DateUtil;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -81,6 +87,28 @@ public class Replicon {
 		};
 
 		this.restTemplate = new RestTemplate(clientHttpRequestFactory);
+	}
+
+	public EmployeeType getEmployeeTypeForUser(User user) throws IOException {
+		GetEmployeeTypeForUserRequest request = new GetEmployeeTypeForUserRequest();
+
+		request.setUserUri(user.getUri());
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<EmployeeType>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/EmployeeTypeService1.svc/GetEmployeeTypeForUser",
+				HttpMethod.POST, httpEntity,
+				new ParameterizedTypeReference<Response<EmployeeType>>() {
+				});
+
+		return response.getBody().getD();
 	}
 
 	public Project getProject(String projectUri) throws IOException {
@@ -260,6 +288,62 @@ public class Replicon {
 		response = restTemplate.exchange(getBaseServiceUrl()
 				+ "/UserService1.svc/GetUser2", HttpMethod.POST, httpEntity,
 				new ParameterizedTypeReference<Response<User>>() {
+				});
+
+		objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+
+		return response.getBody().getD();
+	}
+
+	public UserDetails getUserDetails(User user) throws IOException {
+		GetUserDetailsRequest request = new GetUserDetailsRequest();
+
+		request.setUserUri(user.getUri());
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<UserDetails>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/UserService1.svc/GetUserDetails", HttpMethod.POST,
+				httpEntity,
+				new ParameterizedTypeReference<Response<UserDetails>>() {
+				});
+
+		UserDetails details = response.getBody().getD();
+		if (details != null) {
+			details.setLoginName(user.getLoginName());
+		}
+
+		return details;
+	}
+
+	public Resource putUser(UserDetails userDetails) throws IOException {
+		PutUserRequest request = new PutUserRequest();
+		request.setTarget(userDetails.getUser());
+		request.setLoginName(userDetails.getLoginName());
+		request.setFirstname(userDetails.getFirstName());
+		request.setLastname(userDetails.getLastName());
+		request.setDepartment(userDetails.getDepartment());
+		request.setEmployeeType(userDetails.getEmployeeType());
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
+
+		ResponseEntity<Response<Resource>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/UserService1.svc/PutUser", HttpMethod.POST, httpEntity,
+				new ParameterizedTypeReference<Response<Resource>>() {
 				});
 
 		return response.getBody().getD();

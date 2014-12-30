@@ -17,12 +17,16 @@ package br.com.thiagomoreira.replicon.model;
 
 import lombok.Data;
 
-@Data
-public class Department {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-	protected String displayText;
-	protected String name;
-	protected String parent;
-	protected String parameterCorrelationId;
-	protected String uri;
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class UserDetails {
+
+	protected Department department;
+	protected EmployeeType employeeType;
+	protected String firstName;
+	protected String lastName;
+	protected String loginName;
+	protected User user;
 }
