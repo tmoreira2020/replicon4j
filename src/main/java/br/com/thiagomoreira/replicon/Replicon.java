@@ -54,7 +54,10 @@ import br.com.thiagomoreira.replicon.model.operations.GetTaskDetailsRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetTimeOffDetailsForUserAndDateRangeRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetUser2Request;
 import br.com.thiagomoreira.replicon.model.operations.GetUserDetailsRequest;
+import br.com.thiagomoreira.replicon.model.operations.PublishDraftEmployeeTypeRequest;
 import br.com.thiagomoreira.replicon.model.operations.PutUserRequest;
+import br.com.thiagomoreira.replicon.model.operations.UpdateEmployeeTypeDescriptionRequest;
+import br.com.thiagomoreira.replicon.model.operations.UpdateEmployeeTypeNameRequest;
 import br.com.thiagomoreira.replicon.util.DateUtil;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -126,6 +129,91 @@ public class Replicon {
 				});
 
 		return response.getBody().getD();
+	}
+
+	public String createEmployeeTypeDraft() throws IOException {
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<String>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/EmployeeTypeService1.svc/CreateNewDraft", HttpMethod.POST,
+				httpEntity, new ParameterizedTypeReference<Response<String>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
+	public EmployeeType publishEmployeeTypeDraft(EmployeeType employeeType)
+			throws IOException {
+		updateEmployeeTypeDescriptionRequest(employeeType);
+		updateEmployeeTypeNameRequest(employeeType);
+
+		PublishDraftEmployeeTypeRequest request = new PublishDraftEmployeeTypeRequest();
+
+		request.setDraftUri(employeeType.getUri());
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<EmployeeType>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/EmployeeTypeService1.svc/PublishDraft", HttpMethod.POST,
+				httpEntity,
+				new ParameterizedTypeReference<Response<EmployeeType>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
+	public void updateEmployeeTypeDescriptionRequest(EmployeeType employeeType)
+			throws IOException {
+		UpdateEmployeeTypeDescriptionRequest request = new UpdateEmployeeTypeDescriptionRequest();
+
+		request.setDescription(employeeType.getDescription());
+		request.setEmployeeTypeUri(employeeType.getUri());
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<String>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		restTemplate.exchange(getBaseServiceUrl()
+				+ "/EmployeeTypeService1.svc/UpdateDescription",
+				HttpMethod.POST, httpEntity,
+				new ParameterizedTypeReference<Response<String>>() {
+				});
+	}
+
+	public void updateEmployeeTypeNameRequest(EmployeeType employeeType)
+			throws IOException {
+		UpdateEmployeeTypeNameRequest request = new UpdateEmployeeTypeNameRequest();
+
+		request.setName(employeeType.getName());
+		request.setEmployeeTypeUri(employeeType.getUri());
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<String>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		restTemplate.exchange(getBaseServiceUrl()
+				+ "/EmployeeTypeService1.svc/Updatename", HttpMethod.POST,
+				httpEntity, new ParameterizedTypeReference<Response<String>>() {
+				});
 	}
 
 	public Department[] getEnabledDepartments() {
