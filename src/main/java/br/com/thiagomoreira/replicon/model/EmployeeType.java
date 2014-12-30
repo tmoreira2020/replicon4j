@@ -20,7 +20,9 @@ import lombok.Data;
 @Data
 public class EmployeeType {
 
+	protected String description;
 	protected String displayText;
 	protected String name;
 	protected String uri;
+	protected String[] customFields;
 }

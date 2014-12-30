@@ -111,6 +111,23 @@ public class Replicon {
 		return response.getBody().getD();
 	}
 
+	public EmployeeType[] getEmployeeTypes() throws IOException {
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<EmployeeType[]>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/EmployeeTypeService1.svc/GetAllEmployeeTypeDetails",
+				HttpMethod.POST, httpEntity,
+				new ParameterizedTypeReference<Response<EmployeeType[]>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
 	public Department[] getEnabledDepartments() {
 		HttpHeaders headers = new HttpHeaders();
 
