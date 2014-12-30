@@ -111,6 +111,23 @@ public class Replicon {
 		return response.getBody().getD();
 	}
 
+	public Department[] getEnabledDepartments() {
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<Department[]>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/DepartmentService1.svc/GetEnabledDepartments",
+				HttpMethod.POST, httpEntity,
+				new ParameterizedTypeReference<Response<Department[]>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
 	public Project getProject(String projectUri) throws IOException {
 
 		GetProjectDetailsRequest request = new GetProjectDetailsRequest();
