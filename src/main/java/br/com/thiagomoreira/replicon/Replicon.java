@@ -48,6 +48,7 @@ import br.com.thiagomoreira.replicon.model.operations.GetResourceTaskAllocationD
 import br.com.thiagomoreira.replicon.model.operations.GetResourceTaskAllocationDetailsResponse;
 import br.com.thiagomoreira.replicon.model.operations.GetTaskDetailsRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetTimeOffDetailsForUserAndDateRangeRequest;
+import br.com.thiagomoreira.replicon.model.operations.GetUser2Request;
 import br.com.thiagomoreira.replicon.util.DateUtil;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -242,7 +243,7 @@ public class Replicon {
 	}
 
 	public User getUserByLoginName(String loginName) throws IOException {
-		User request = new User();
+		GetUser2Request request = new GetUser2Request();
 
 		request.setLoginName(loginName);
 
