@@ -18,11 +18,9 @@ package br.com.thiagomoreira.replicon.model;
 import lombok.Data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonRootName;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonRootName("user")
 public class User {
 
 	protected String loginName;
