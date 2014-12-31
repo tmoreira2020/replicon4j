@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package br.com.thiagomoreira.replicon.model;
+package br.com.thiagomoreira.replicon.model.operations;
+
+import br.com.thiagomoreira.replicon.model.Project;
 
 import lombok.Data;
 
@@ -21,13 +23,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Project {
+public class PutProjectInfoRequest {
 
-	protected String displayText;
-	protected String name;
-	protected String uri;
-	protected Client client;
-	protected Program program;
-	protected Status status;
-
+	protected Project target;
+	protected Project projectInfo;
 }

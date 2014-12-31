@@ -50,6 +50,7 @@ import br.com.thiagomoreira.replicon.model.operations.GetResourceTaskAllocationD
 import br.com.thiagomoreira.replicon.model.operations.GetTaskDetailsRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetTimeOffDetailsForUserAndDateRangeRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetUser2Request;
+import br.com.thiagomoreira.replicon.model.operations.PutProjectInfoRequest;
 import br.com.thiagomoreira.replicon.util.DateUtil;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -118,6 +119,28 @@ public class Replicon {
 				+ "/ProjectService1.svc/GetProjectDetails", HttpMethod.POST,
 				httpEntity,
 				new ParameterizedTypeReference<Response<Project>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
+	public Resource putProjectInfo(Project project) throws IOException {
+		PutProjectInfoRequest request = new PutProjectInfoRequest();
+		request.setTarget(project);
+		request.setProjectInfo(project);
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<Resource>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/ProjectService1.svc/PutProjectInfo", HttpMethod.POST,
+				httpEntity,
+				new ParameterizedTypeReference<Response<Resource>>() {
 				});
 
 		return response.getBody().getD();
