@@ -123,6 +123,23 @@ public class Replicon {
 		return response.getBody().getD();
 	}
 
+	public Project[] getProjects() throws IOException {
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<Project[]>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/ProjectService1.svc/GetAllProjects", HttpMethod.POST,
+				httpEntity,
+				new ParameterizedTypeReference<Response<Project[]>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
 	public ProjectAllocation[] getProjectAllocations(Date startDate,
 			Date endDate, String resourceUri) throws IOException {
 
