@@ -31,6 +31,7 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import br.com.thiagomoreira.replicon.model.DateRange;
+import br.com.thiagomoreira.replicon.model.Program;
 import br.com.thiagomoreira.replicon.model.Project;
 import br.com.thiagomoreira.replicon.model.ProjectAllocation;
 import br.com.thiagomoreira.replicon.model.Resource;
@@ -80,6 +81,23 @@ public class Replicon {
 		};
 
 		this.restTemplate = new RestTemplate(clientHttpRequestFactory);
+	}
+
+	public Program[] getPrograms() {
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<Program[]>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/ProgramService1.svc/GetAllPrograms", HttpMethod.POST,
+				httpEntity,
+				new ParameterizedTypeReference<Response<Program[]>>() {
+				});
+
+		return response.getBody().getD();
 	}
 
 	public Project getProject(String projectUri) throws IOException {
