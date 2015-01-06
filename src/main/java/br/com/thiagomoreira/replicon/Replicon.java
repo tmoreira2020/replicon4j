@@ -43,6 +43,7 @@ import br.com.thiagomoreira.replicon.model.TimeOffAllocation;
 import br.com.thiagomoreira.replicon.model.User;
 import br.com.thiagomoreira.replicon.model.operations.AssignResourceToProjectRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetDirectReportsForUserRequest;
+import br.com.thiagomoreira.replicon.model.operations.GetProgramDetailsRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetProjectDetailsRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetResourceAllocationSummaryRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetResourceAllocationSummaryResponse;
@@ -87,8 +88,8 @@ public class Replicon {
 		this.restTemplate = new RestTemplate(clientHttpRequestFactory);
 	}
 
-	public String assignResourceToProject(String projectUri,
-			String resourceUri, String resourceToReplaceUri) throws IOException {
+	public void assignResourceToProject(String projectUri, String resourceUri,
+			String resourceToReplaceUri) throws IOException {
 
 		AssignResourceToProjectRequest request = new AssignResourceToProjectRequest();
 		request.setProjectUri(projectUri);
@@ -107,6 +108,26 @@ public class Replicon {
 				+ "/ProjectService1.svc/AssignResourceToProject",
 				HttpMethod.POST, httpEntity,
 				new ParameterizedTypeReference<Response<String>>() {
+				});
+	}
+
+	public Program getProgram(String programUri) throws IOException {
+		GetProgramDetailsRequest request = new GetProgramDetailsRequest();
+
+		request.setProgramUri(programUri);
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<Program>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/ProgramService1.svc/GetProgramDetails", HttpMethod.POST,
+				httpEntity,
+				new ParameterizedTypeReference<Response<Program>>() {
 				});
 
 		return response.getBody().getD();
