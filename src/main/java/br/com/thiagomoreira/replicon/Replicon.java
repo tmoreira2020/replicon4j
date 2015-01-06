@@ -33,6 +33,7 @@ import org.springframework.web.client.RestTemplate;
 import br.com.thiagomoreira.replicon.model.DateRange;
 import br.com.thiagomoreira.replicon.model.Department;
 import br.com.thiagomoreira.replicon.model.EmployeeType;
+import br.com.thiagomoreira.replicon.model.Permission;
 import br.com.thiagomoreira.replicon.model.Project;
 import br.com.thiagomoreira.replicon.model.ProjectAllocation;
 import br.com.thiagomoreira.replicon.model.Resource;
@@ -42,6 +43,8 @@ import br.com.thiagomoreira.replicon.model.TaskAllocation;
 import br.com.thiagomoreira.replicon.model.TimeOffAllocation;
 import br.com.thiagomoreira.replicon.model.User;
 import br.com.thiagomoreira.replicon.model.UserDetails;
+import br.com.thiagomoreira.replicon.model.operations.AssignPermissionSetToUserRequest;
+import br.com.thiagomoreira.replicon.model.operations.GetAssignedPermissionSetsForUserRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetDirectReportsForUserRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetEmployeeTypeForUserRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetProjectDetailsRequest;
@@ -90,6 +93,27 @@ public class Replicon {
 		};
 
 		this.restTemplate = new RestTemplate(clientHttpRequestFactory);
+	}
+
+	public void assignPermissionSetToUser(String userUri,
+			String permissionSetUri) throws IOException {
+		AssignPermissionSetToUserRequest request = new AssignPermissionSetToUserRequest();
+		request.setPermissionSetUri(permissionSetUri);
+		request.setUserUri(userUri);
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<String>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/PermissionSetService1.svc/AssignPermissionSetToUser",
+				HttpMethod.POST, httpEntity,
+				new ParameterizedTypeReference<Response<String>>() {
+				});
 	}
 
 	public EmployeeType getEmployeeTypeForUser(User user) throws IOException {
@@ -229,6 +253,49 @@ public class Replicon {
 				HttpMethod.POST, httpEntity,
 				new ParameterizedTypeReference<Response<Department[]>>() {
 				});
+
+		return response.getBody().getD();
+	}
+
+	public Permission[] getPermissions() {
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<Permission[]>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/PermissionSetService1.svc/GetAllPermissionSets",
+				HttpMethod.POST, httpEntity,
+				new ParameterizedTypeReference<Response<Permission[]>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
+	public Permission[] getPermissionsAssignedForUser(String userUri)
+			throws IOException {
+		GetAssignedPermissionSetsForUserRequest request = new GetAssignedPermissionSetsForUserRequest();
+
+		request.setUserUri(userUri);
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<Permission[]>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate
+				.exchange(
+						getBaseServiceUrl()
+								+ "/PermissionSetService1.svc/GetAssignedPermissionSetsForUser",
+						HttpMethod.POST,
+						httpEntity,
+						new ParameterizedTypeReference<Response<Permission[]>>() {
+						});
 
 		return response.getBody().getD();
 	}
