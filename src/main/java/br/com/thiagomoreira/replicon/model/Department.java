@@ -22,5 +22,7 @@ public class Department {
 
 	protected String displayText;
 	protected String name;
+	protected String parent;
+	protected String parameterCorrelationId;
 	protected String uri;
 }

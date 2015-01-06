@@ -18,14 +18,11 @@ package br.com.thiagomoreira.replicon.model.operations;
 import lombok.Data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonRootName;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonRootName("user")
-public class GetUser2Request {
+public class UpdateEmployeeTypeNameRequest {
 
-	protected String loginName;
-	protected String uri;
-	protected String parameterCorrelationId;
+	protected String employeeTypeUri;
+	protected String name;
 }

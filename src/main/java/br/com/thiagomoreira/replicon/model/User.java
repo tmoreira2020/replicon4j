@@ -25,4 +25,5 @@ public class User {
 
 	protected String loginName;
 	protected String uri;
+	protected String parameterCorrelationId;
 }

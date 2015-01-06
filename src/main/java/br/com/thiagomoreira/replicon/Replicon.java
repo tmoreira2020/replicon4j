@@ -31,6 +31,9 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import br.com.thiagomoreira.replicon.model.DateRange;
+import br.com.thiagomoreira.replicon.model.Department;
+import br.com.thiagomoreira.replicon.model.EmployeeType;
+import br.com.thiagomoreira.replicon.model.Permission;
 import br.com.thiagomoreira.replicon.model.Project;
 import br.com.thiagomoreira.replicon.model.ProjectAllocation;
 import br.com.thiagomoreira.replicon.model.Resource;
@@ -39,7 +42,11 @@ import br.com.thiagomoreira.replicon.model.Task;
 import br.com.thiagomoreira.replicon.model.TaskAllocation;
 import br.com.thiagomoreira.replicon.model.TimeOffAllocation;
 import br.com.thiagomoreira.replicon.model.User;
+import br.com.thiagomoreira.replicon.model.UserDetails;
+import br.com.thiagomoreira.replicon.model.operations.AssignPermissionSetToUserRequest;
+import br.com.thiagomoreira.replicon.model.operations.GetAssignedPermissionSetsForUserRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetDirectReportsForUserRequest;
+import br.com.thiagomoreira.replicon.model.operations.GetEmployeeTypeForUserRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetProjectDetailsRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetResourceAllocationSummaryRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetResourceAllocationSummaryResponse;
@@ -49,9 +56,15 @@ import br.com.thiagomoreira.replicon.model.operations.GetResourceTaskAllocationD
 import br.com.thiagomoreira.replicon.model.operations.GetTaskDetailsRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetTimeOffDetailsForUserAndDateRangeRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetUser2Request;
+import br.com.thiagomoreira.replicon.model.operations.GetUserDetailsRequest;
+import br.com.thiagomoreira.replicon.model.operations.PublishDraftEmployeeTypeRequest;
+import br.com.thiagomoreira.replicon.model.operations.PutUserRequest;
+import br.com.thiagomoreira.replicon.model.operations.UpdateEmployeeTypeDescriptionRequest;
+import br.com.thiagomoreira.replicon.model.operations.UpdateEmployeeTypeNameRequest;
 import br.com.thiagomoreira.replicon.util.DateUtil;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class Replicon {
 
@@ -80,6 +93,211 @@ public class Replicon {
 		};
 
 		this.restTemplate = new RestTemplate(clientHttpRequestFactory);
+	}
+
+	public void assignPermissionSetToUser(String userUri,
+			String permissionSetUri) throws IOException {
+		AssignPermissionSetToUserRequest request = new AssignPermissionSetToUserRequest();
+		request.setPermissionSetUri(permissionSetUri);
+		request.setUserUri(userUri);
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<String>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/PermissionSetService1.svc/AssignPermissionSetToUser",
+				HttpMethod.POST, httpEntity,
+				new ParameterizedTypeReference<Response<String>>() {
+				});
+	}
+
+	public EmployeeType getEmployeeTypeForUser(User user) throws IOException {
+		GetEmployeeTypeForUserRequest request = new GetEmployeeTypeForUserRequest();
+
+		request.setUserUri(user.getUri());
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<EmployeeType>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/EmployeeTypeService1.svc/GetEmployeeTypeForUser",
+				HttpMethod.POST, httpEntity,
+				new ParameterizedTypeReference<Response<EmployeeType>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
+	public EmployeeType[] getEmployeeTypes() throws IOException {
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<EmployeeType[]>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/EmployeeTypeService1.svc/GetAllEmployeeTypeDetails",
+				HttpMethod.POST, httpEntity,
+				new ParameterizedTypeReference<Response<EmployeeType[]>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
+	public String createEmployeeTypeDraft() throws IOException {
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<String>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/EmployeeTypeService1.svc/CreateNewDraft", HttpMethod.POST,
+				httpEntity, new ParameterizedTypeReference<Response<String>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
+	public EmployeeType publishEmployeeTypeDraft(EmployeeType employeeType)
+			throws IOException {
+		updateEmployeeTypeDescriptionRequest(employeeType);
+		updateEmployeeTypeNameRequest(employeeType);
+
+		PublishDraftEmployeeTypeRequest request = new PublishDraftEmployeeTypeRequest();
+
+		request.setDraftUri(employeeType.getUri());
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<EmployeeType>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/EmployeeTypeService1.svc/PublishDraft", HttpMethod.POST,
+				httpEntity,
+				new ParameterizedTypeReference<Response<EmployeeType>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
+	public void updateEmployeeTypeDescriptionRequest(EmployeeType employeeType)
+			throws IOException {
+		UpdateEmployeeTypeDescriptionRequest request = new UpdateEmployeeTypeDescriptionRequest();
+
+		request.setDescription(employeeType.getDescription());
+		request.setEmployeeTypeUri(employeeType.getUri());
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<String>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		restTemplate.exchange(getBaseServiceUrl()
+				+ "/EmployeeTypeService1.svc/UpdateDescription",
+				HttpMethod.POST, httpEntity,
+				new ParameterizedTypeReference<Response<String>>() {
+				});
+	}
+
+	public void updateEmployeeTypeNameRequest(EmployeeType employeeType)
+			throws IOException {
+		UpdateEmployeeTypeNameRequest request = new UpdateEmployeeTypeNameRequest();
+
+		request.setName(employeeType.getName());
+		request.setEmployeeTypeUri(employeeType.getUri());
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<String>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		restTemplate.exchange(getBaseServiceUrl()
+				+ "/EmployeeTypeService1.svc/Updatename", HttpMethod.POST,
+				httpEntity, new ParameterizedTypeReference<Response<String>>() {
+				});
+	}
+
+	public Department[] getEnabledDepartments() {
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<Department[]>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/DepartmentService1.svc/GetEnabledDepartments",
+				HttpMethod.POST, httpEntity,
+				new ParameterizedTypeReference<Response<Department[]>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
+	public Permission[] getPermissions() {
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<Permission[]>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/PermissionSetService1.svc/GetAllPermissionSets",
+				HttpMethod.POST, httpEntity,
+				new ParameterizedTypeReference<Response<Permission[]>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
+	public Permission[] getPermissionsAssignedForUser(String userUri)
+			throws IOException {
+		GetAssignedPermissionSetsForUserRequest request = new GetAssignedPermissionSetsForUserRequest();
+
+		request.setUserUri(userUri);
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<Permission[]>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate
+				.exchange(
+						getBaseServiceUrl()
+								+ "/PermissionSetService1.svc/GetAssignedPermissionSetsForUser",
+						HttpMethod.POST,
+						httpEntity,
+						new ParameterizedTypeReference<Response<Permission[]>>() {
+						});
+
+		return response.getBody().getD();
 	}
 
 	public Project getProject(String projectUri) throws IOException {
@@ -250,6 +468,8 @@ public class Replicon {
 
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
+		objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
+
 		ResponseEntity<Response<User>> response = null;
 		HttpEntity<String> httpEntity = new HttpEntity<String>(
 				objectMapper.writeValueAsString(request), headers);
@@ -257,6 +477,67 @@ public class Replicon {
 		response = restTemplate.exchange(getBaseServiceUrl()
 				+ "/UserService1.svc/GetUser2", HttpMethod.POST, httpEntity,
 				new ParameterizedTypeReference<Response<User>>() {
+				});
+
+		objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+
+		return response.getBody().getD();
+	}
+
+	public UserDetails getUserDetails(User user) throws IOException {
+		GetUserDetailsRequest request = new GetUserDetailsRequest();
+
+		request.setUserUri(user.getUri());
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<UserDetails>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/UserService1.svc/GetUserDetails", HttpMethod.POST,
+				httpEntity,
+				new ParameterizedTypeReference<Response<UserDetails>>() {
+				});
+
+		UserDetails details = response.getBody().getD();
+		if (details != null) {
+			details.setLoginName(user.getLoginName());
+		}
+
+		return details;
+	}
+
+	public Resource putUser(UserDetails userDetails) throws IOException {
+		PutUserRequest request = new PutUserRequest();
+		request.setDepartment(userDetails.getDepartment());
+		request.setEmailAddress(userDetails.getEmailAddress());
+		request.setEmployeeId(userDetails.getEmployeeId());
+		request.setEmployeeType(userDetails.getEmployeeType());
+		request.setEmploymentDateRange(userDetails.getEmploymentDateRange());
+		request.setFirstname(userDetails.getFirstName());
+		request.setLastname(userDetails.getLastName());
+		request.setLoginName(userDetails.getLoginName());
+		request.setSupervisorAssignmentSchedule(userDetails
+				.getSupervisorAssignmentSchedule());
+		request.setTarget(userDetails.getUser());
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
+
+		ResponseEntity<Response<Resource>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/UserService1.svc/PutUser", HttpMethod.POST, httpEntity,
+				new ParameterizedTypeReference<Response<Resource>>() {
 				});
 
 		return response.getBody().getD();

@@ -13,19 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package br.com.thiagomoreira.replicon.model.operations;
+package br.com.thiagomoreira.replicon.model;
 
 import lombok.Data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonRootName;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonRootName("user")
-public class GetUser2Request {
+public class UserDetails {
 
+	protected Department department;
+	protected String emailAddress;
+	protected String employeeId;
+	protected EmployeeType employeeType;
+	protected EmploymentDateRange employmentDateRange;
+	protected String firstName;
+	protected String lastName;
 	protected String loginName;
-	protected String uri;
-	protected String parameterCorrelationId;
+	protected SupervisorAssignmentSchedule supervisorAssignmentSchedule;
+	protected User user;
 }

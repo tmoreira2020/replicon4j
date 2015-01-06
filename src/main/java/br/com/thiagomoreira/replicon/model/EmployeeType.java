@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package br.com.thiagomoreira.replicon.model.operations;
+package br.com.thiagomoreira.replicon.model;
 
 import lombok.Data;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonRootName;
-
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonRootName("user")
-public class GetUser2Request {
+public class EmployeeType {
 
-	protected String loginName;
+	protected String description;
+	protected String displayText;
+	protected String name;
 	protected String uri;
-	protected String parameterCorrelationId;
+	protected String[] customFields;
 }

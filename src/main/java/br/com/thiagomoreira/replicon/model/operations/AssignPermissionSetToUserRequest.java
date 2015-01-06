@@ -15,17 +15,16 @@
  */
 package br.com.thiagomoreira.replicon.model.operations;
 
+import br.com.thiagomoreira.replicon.model.Project;
+
 import lombok.Data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonRootName;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonRootName("user")
-public class GetUser2Request {
+public class AssignPermissionSetToUserRequest {
 
-	protected String loginName;
-	protected String uri;
-	protected String parameterCorrelationId;
+	protected String permissionSetUri;
+	protected String userUri;
 }

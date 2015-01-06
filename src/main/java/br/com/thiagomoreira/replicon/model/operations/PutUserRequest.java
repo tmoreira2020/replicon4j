@@ -15,6 +15,12 @@
  */
 package br.com.thiagomoreira.replicon.model.operations;
 
+import br.com.thiagomoreira.replicon.model.Department;
+import br.com.thiagomoreira.replicon.model.EmployeeType;
+import br.com.thiagomoreira.replicon.model.EmploymentDateRange;
+import br.com.thiagomoreira.replicon.model.SupervisorAssignmentSchedule;
+import br.com.thiagomoreira.replicon.model.User;
+
 import lombok.Data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -23,9 +29,18 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonRootName("user")
-public class GetUser2Request {
+public class PutUserRequest {
 
+	protected User target;
 	protected String loginName;
-	protected String uri;
-	protected String parameterCorrelationId;
+	protected String firstname;
+	protected String lastname;
+	protected String emailAddress;
+	protected String employeeId;
+	protected Department department;
+	protected SupervisorAssignmentSchedule supervisorAssignmentSchedule;
+	protected String workWeekStartDayUri;
+	protected EmploymentDateRange employmentDateRange;
+	protected EmployeeType employeeType;
+	protected String[] customFieldValues;
 }
