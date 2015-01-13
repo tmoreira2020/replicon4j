@@ -31,15 +31,19 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import br.com.thiagomoreira.replicon.model.DateRange;
+import br.com.thiagomoreira.replicon.model.Program;
 import br.com.thiagomoreira.replicon.model.Project;
 import br.com.thiagomoreira.replicon.model.ProjectAllocation;
 import br.com.thiagomoreira.replicon.model.Resource;
 import br.com.thiagomoreira.replicon.model.Response;
+import br.com.thiagomoreira.replicon.model.Target;
 import br.com.thiagomoreira.replicon.model.Task;
 import br.com.thiagomoreira.replicon.model.TaskAllocation;
 import br.com.thiagomoreira.replicon.model.TimeOffAllocation;
 import br.com.thiagomoreira.replicon.model.User;
+import br.com.thiagomoreira.replicon.model.operations.AssignResourceToProjectRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetDirectReportsForUserRequest;
+import br.com.thiagomoreira.replicon.model.operations.GetProgramDetailsRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetProjectDetailsRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetResourceAllocationSummaryRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetResourceAllocationSummaryResponse;
@@ -49,6 +53,8 @@ import br.com.thiagomoreira.replicon.model.operations.GetResourceTaskAllocationD
 import br.com.thiagomoreira.replicon.model.operations.GetTaskDetailsRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetTimeOffDetailsForUserAndDateRangeRequest;
 import br.com.thiagomoreira.replicon.model.operations.GetUser2Request;
+import br.com.thiagomoreira.replicon.model.operations.PutProjectInfoRequest;
+import br.com.thiagomoreira.replicon.model.operations.PutTaskRequest;
 import br.com.thiagomoreira.replicon.util.DateUtil;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -82,6 +88,68 @@ public class Replicon {
 		this.restTemplate = new RestTemplate(clientHttpRequestFactory);
 	}
 
+	public void assignResourceToProject(String projectUri, String resourceUri,
+			String resourceToReplaceUri) throws IOException {
+
+		AssignResourceToProjectRequest request = new AssignResourceToProjectRequest();
+		request.setProjectUri(projectUri);
+		request.setResourceUri(resourceUri);
+		request.setResourceToReplaceUri(resourceToReplaceUri);
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<String>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/ProjectService1.svc/AssignResourceToProject",
+				HttpMethod.POST, httpEntity,
+				new ParameterizedTypeReference<Response<String>>() {
+				});
+	}
+
+	public Program getProgram(String programUri) throws IOException {
+		GetProgramDetailsRequest request = new GetProgramDetailsRequest();
+
+		request.setProgramUri(programUri);
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<Program>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/ProgramService1.svc/GetProgramDetails", HttpMethod.POST,
+				httpEntity,
+				new ParameterizedTypeReference<Response<Program>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
+	public Program[] getPrograms() {
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<Program[]>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/ProgramService1.svc/GetAllPrograms", HttpMethod.POST,
+				httpEntity,
+				new ParameterizedTypeReference<Response<Program[]>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
 	public Project getProject(String projectUri) throws IOException {
 
 		GetProjectDetailsRequest request = new GetProjectDetailsRequest();
@@ -100,6 +168,45 @@ public class Replicon {
 				+ "/ProjectService1.svc/GetProjectDetails", HttpMethod.POST,
 				httpEntity,
 				new ParameterizedTypeReference<Response<Project>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
+	public Resource putProjectInfo(Project project) throws IOException {
+		PutProjectInfoRequest request = new PutProjectInfoRequest();
+		request.setTarget(project);
+		request.setProjectInfo(project);
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<Resource>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/ProjectService1.svc/PutProjectInfo", HttpMethod.POST,
+				httpEntity,
+				new ParameterizedTypeReference<Response<Resource>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
+	public Project[] getProjects() throws IOException {
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<Project[]>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/ProjectService1.svc/GetAllProjects", HttpMethod.POST,
+				httpEntity,
+				new ParameterizedTypeReference<Response<Project[]>>() {
 				});
 
 		return response.getBody().getD();
@@ -176,6 +283,28 @@ public class Replicon {
 		response = restTemplate.exchange(getBaseServiceUrl()
 				+ "/TaskService1.svc/GetTaskDetails", HttpMethod.POST,
 				httpEntity, new ParameterizedTypeReference<Response<Task>>() {
+				});
+
+		return response.getBody().getD();
+	}
+
+	public Task putTask(Target project, Task task) throws IOException {
+		PutTaskRequest request = new PutTaskRequest();
+
+		request.setProject(project);
+		request.setTask(task);
+
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		ResponseEntity<Response<Task>> response = null;
+		HttpEntity<String> httpEntity = new HttpEntity<String>(
+				objectMapper.writeValueAsString(request), headers);
+
+		response = restTemplate.exchange(getBaseServiceUrl()
+				+ "/ProjectService1.svc/PutTask", HttpMethod.POST, httpEntity,
+				new ParameterizedTypeReference<Response<Task>>() {
 				});
 
 		return response.getBody().getD();
